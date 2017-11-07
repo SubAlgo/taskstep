@@ -116,12 +116,23 @@
             return
         }
 
+        //Show this.task
         alert(this.task);
 
+        //Show this.step[]
         var len = this.step.length;
         for(i=0; i < len; i++) {
             alert("Step["+ (i+1)  +"]"+ this.step[i]);
         }
+
+        //Create JsonObject
+        var obj = new Object();
+        obj.task = this.task;
+        obj.step = this.step;
+
+        var jsonString = JSON.stringify(obj);
+
+        alert(jsonString);
     }
 
 
