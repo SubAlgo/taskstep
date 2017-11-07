@@ -18,3 +18,7 @@ Route::get('/', function () {
 Route::get('/task', function () {
     return view('task');
 });
+
+Route::post('/task', function () {
+    return;
+});

@@ -48,6 +48,7 @@
             <td></td>
             <td>
                 <span class="ui button positive" id="submit" name="submit" onclick="submitValue()">Submit</span>
+                <div id="demo">aa</div>
             </td>
         </tr>
     </table>
@@ -57,7 +58,7 @@
 <script>
 
     // สร้าง Global var task, step[]
-    var task = "o";
+    var task = "";
     var step = [];
 
     //Function CreateTask()
@@ -133,7 +134,23 @@
         var jsonString = JSON.stringify(obj);
 
         alert(jsonString);
+        
+
     }
+    $(document).ready(function(){
+        var obj = new Object();
+        obj.task = this.task;
+        obj.step = this.step;
+
+        var jsonString = JSON.stringify(obj);
+        
+        $("#submit").click(function () {
+            var ta = $("#task_title").val()
+            alert(ta);
+            $("#demo").hide();
+        });
+    });
+    
 
 
 </script>
