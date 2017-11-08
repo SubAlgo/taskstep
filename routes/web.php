@@ -19,19 +19,17 @@ Route::get('/task', function () {
     return view('task');
 });
 
-Route::post('/task', function (Request $req) {
-    //$myArr = array("John", "Mary", "Peter", "Sally");
-    //$myJSON = json_encode($myArr);
+Route::post('/task', function (Request $res) {
 
-    $data = $req->task;
-    
+    $arr = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5);
 
-    //return response()->json(['response' => 'This is post method']); 
-    
-    //return Response::json($data);
-    return response()->json([
-    'name' => 'Abigail',
-    'state' => 'CA'
-]);
-    //return response()->json($data);
+   $r = json_encode($arr);
+   return Response::json($r);
+   
+    //return Response::json($res::all());
+   /*
+    if(Request::ajax()){
+        return Response::json(Request::all());
+     }
+     */
 });

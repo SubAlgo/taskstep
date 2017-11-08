@@ -2,13 +2,14 @@
 &nbsp
 <div name="Input">
     <form action="">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <table>
             <tr>
                 <td>Task Title:</td>
                 <td>
                     <input type="text" name="task_title" id="task_title"> 
                     &ensp;
-                    <span class="ui button primary" name="create_task_title" id="create_task_title" onclick="createTask()">
+                    <span class="ui button primary" name="create_task_title" id="create_task_title">
                         Create Task Title
                     </span>
                 </td>
@@ -18,7 +19,7 @@
                 <td>
                     <input type="text" name="step_title" id="step_title">
                     &ensp;
-                    <span class="ui button primary" name="create_step" id="create_step" onclick="createStep()">
+                    <span class="ui button primary" name="create_step" id="create_step">
                         Create Step
                     </span>
                 </td>
@@ -47,14 +48,20 @@
         <tr>
             <td></td>
             <td>
-                <span class="ui button positive" id="submit" name="submit" onclick="submitValue()">Submit</span>
+                <span class="ui button positive" id="submit" name="submit">Submit</span>
             </td>
         </tr>
     </table>
     
 </div>
 
-<script>
+<script type="text/javascript">
+    $.ajaxSetup({
+	    headers: {
+		    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	    }
+    });
+   
 
     $(document).ready(function () {
             var task = "";
@@ -105,6 +112,7 @@
 
             //Function Submit
             $("#submit").click(function () {
+               
                 alert("Task : " + task + " | " + "Step : " + step);
                 //Check Task value
                 if(task == "") {
@@ -129,30 +137,32 @@
                 
                 
 
-                $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-                
-                var type = 'POST'; //for creating new resource
-                var my_url = "task";
-
                 alert("jsonString : " + jsonString)
+                alert('{{csrf_token()}}');
 
                 $.ajax({
+                    type: "POST",
+                    url: "task",
+                    /*data:{_token: '{{csrf_token()}}',
+                           d: jsonString},
+                    */
+                    data: jsonString,
+                    dataType: 'json',
+                    success: function(data){
+                        console.log(data)
+                        var json = JSON.parse(data);
 
-                        type: type,
-                        url: '/task',
-                        data: jsonString,
-                        dataType: 'json',
-                        success: function (data) {
-                            alert(data);
-                        },
-                        error: function (data) {
+                        console.log(json.a)
+                        console.log(jsonString)
+                        var json1 = JSON.parse(jsonString);
+                        console.log(json1.task)
+                        
+                    },
+                    error: function (data) {
                             alert('Error:qqqq', data);
                         }
-                    });
+                });
+                
                    
 
 
