@@ -48,7 +48,6 @@
             <td></td>
             <td>
                 <span class="ui button positive" id="submit" name="submit" onclick="submitValue()">Submit</span>
-                <div id="demo">aa</div>
             </td>
         </tr>
     </table>
@@ -57,105 +56,81 @@
 
 <script>
 
-    // สร้าง Global var task, step[]
-    var task = "";
-    var step = [];
+    $(document).ready(function () {
+            var task = "";
+            var step = [];
 
-    //Function CreateTask()
-    function createTask() {
-        var task;
-        task = document.getElementById("task_title").value;
+            //Function Create Task
+            $("#create_task_title").click(function () {
 
-        // Check Empty value!!
-        task = task.trim();
-        if(task == ""){
-            alert("Task Value is empty!!");
-        } else{
-            this.task = task;
-            // เอา this.task ไปแสดงที่ <label id="show_task"> 
-            document.getElementById('show_task').innerHTML = this.task;   
-        }
-    }
+                /*
+                พอกดปุ่ม Create Task Title จะเอาค่ามาใส่ตัวแปร x เพื่อตัดช่องว่าง เพื่อตรวจสอบค่าว่าง
+                -ถ้าเป็นค่าว่าง ก็จะโชว๋ Task is Empty!! แล้ว return ออก
+                -ถ้าไม่เป็นค่าว่าง จะเอาค่าของตัวแปร x ไปใส่ใน task
+                */
+                var x = $("#task_title").val();
+                
+                //Check Input Value
+                x = x.trim();
+                if(x == ""){
+                    alert("Task is Empty!!");
+                    return;
+                }
 
-    //Function CreateStep()
-    function createStep() {
-        var step;
-        step = document.getElementById('step_title').value;
-        
-        //Check Empty value!!
-        step = step.trim();
-        if(step == "") {
-            alert("Step Value is empty!!");
-        } else {
-            //check สมาชิก array ทั้งหมดของ this.step เพื่อจะเอาค่าที่กรอกไปเก็บไว้ที่ index หลังสุด
-            x = this.step.length;
-            this.step[x] = step;
+                //TODO
+                task = x;                
+                $("#show_task").html(task);
+                $("#task_title").val("");
+            });
 
-            //สร้าง Element 'li' เก็บไว้ในตัวแปร li เพื่อจะเอาไปแทรกใน <ol name="show_step">
-            var li = document.createElement('li');
-            //สร้างตัวแปร txtShow ไว้เก็บ object TextNode เพื่อใช้สร้าง li
-            var txtShow = document.createTextNode(this.step[x]);
-            //ใน li ที่สร้างให้แทรก text ที่รับค่า txtShow
-            li.appendChild(txtShow);
-            //เอา object li ที่สร้างไปแทรกใน Element <ol id='show_step'>
-            document.getElementById('show_step').appendChild(li);
 
-            //Clear กล่อง input step
-            document.getElementById('step_title').value="";
-        }
-    }
+            //Function Create Step
+            $("#create_step").click(function () {
+                var x = $("#step_title").val();
 
-    
-    function submitValue() {
-        if(this.task == "") {
-            alert("Task is empty!!");
-            return
-        }
+                //Check Input Value
+                x = x.trim();
+                if(x == "") {
+                    alert("Step input is Empty!!");
+                    return;
+                }
 
-        if(this.step.length == 0) {
-            alert("Step is empty!!");
-            return
-        }
 
-        //Show this.task
-        alert(this.task);
+                var len = step.length;
+                step[len] = x;
 
-        //Show this.step[]
-        var len = this.step.length;
-        for(i=0; i < len; i++) {
-            alert("Step["+ (i+1)  +"]"+ this.step[i]);
-        }
+                $("#show_step").append("<li>" + step[len] + "</li>");
+                $("#step_title").val("");
+            });
 
-        //Create JsonObject
-        var obj = new Object();
-        obj.task = this.task;
-        obj.step = this.step;
+            //Function Submit
+            $("#submit").click(function () {
+                alert("Task : " + task + " | " + "Step : " + step);
+                //Check Task value
+                if(task == "") {
+                    alert("Task is Empty!!!");
+                    return;
+                }
 
-        var jsonString = JSON.stringify(obj);
+                //Check Step value
+                if(step.length == 0) {
+                    alert("Not have step value!!");
+                    return;
+                }
+                
+                //alert("task : " + task);
+                //alert("step : " + step);
 
-        alert(jsonString);
-        
+                var obj = new Object();
+                    obj.task = task;
+                    obj.step = step;
 
-    }
-    $(document).ready(function(){
-        var obj = new Object();
-        obj.task = this.task;
-        obj.step = this.step;
-
-        var jsonString = JSON.stringify(obj);
-        
-        $("#submit").click(function () {
-            var ta = $("#task_title").val()
-            alert(ta);
-            $("#demo").hide();
+                    var jsonString = JSON.stringify(obj);
+                
+                alert("jsonString : " + jsonString);
+            });
         });
-    });
-    
-
-
 </script>
-
-
 
 
 
