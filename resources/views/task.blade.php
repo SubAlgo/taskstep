@@ -127,7 +127,35 @@
 
                     var jsonString = JSON.stringify(obj);
                 
-                alert("jsonString : " + jsonString);
+                
+
+                $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                
+                var type = 'POST'; //for creating new resource
+                var my_url = "task";
+
+                alert("jsonString : " + jsonString)
+
+                $.ajax({
+
+                        type: type,
+                        url: '/task',
+                        data: jsonString,
+                        dataType: 'json',
+                        success: function (data) {
+                            alert(data);
+                        },
+                        error: function (data) {
+                            alert('Error:qqqq', data);
+                        }
+                    });
+                   
+
+
             });
         });
 </script>
