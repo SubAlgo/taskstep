@@ -66,6 +66,7 @@
     $(document).ready(function () {
             var task = "";
             var step = [];
+            var jsonString;
 
             //Function Create Task
             $("#create_task_title").click(function () {
@@ -133,12 +134,12 @@
                     obj.task = task;
                     obj.step = step;
 
-                    var jsonString = JSON.stringify(obj);
+                jsonString = JSON.stringify(obj);
                 
                 
 
-                alert("jsonString : " + jsonString)
-                alert('{{csrf_token()}}');
+                //alert("jsonString : " + jsonString)
+                //alert('{{csrf_token()}}');
 
                 $.ajax({
                     type: "POST",
@@ -147,15 +148,19 @@
                            d: jsonString},
                     */
                     data: jsonString,
+                    contentType: "application/json; charset=utf-8",
                     dataType: 'json',
                     success: function(data){
-                        console.log(data)
-                        var json = JSON.parse(data);
+                        console.log("jsonString : " + jsonString)
+                        console.log("data : " + data)
+                        var json = JSON.parse(data)
+                        console.log("data parse : " + json)
+                        console.log("data parse .a : " + json.a)
 
-                        console.log(json.a)
-                        console.log(jsonString)
-                        var json1 = JSON.parse(jsonString);
-                        console.log(json1.task)
+                        //console.log(json.a)
+                        //console.log(jsonString)
+                        //var json1 = JSON.parse(jsonString);
+                        //console.log(json1.task)
                         
                     },
                     error: function (data) {

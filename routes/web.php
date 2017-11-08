@@ -20,10 +20,18 @@ Route::get('/task', function () {
 });
 
 Route::post('/task', function (Request $res) {
+    //$t = JSON.parse($res);
+    //$returnValue = json_decode('{"task":"qwq","step":["1","2"]}');
+    //$returnValue = json_decode($res);
+    //$te = json_encode($returnValue);
+
+
 
     $arr = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5);
 
    $r = json_encode($arr);
+   
+
    return Response::json($r);
    
     //return Response::json($res::all());
