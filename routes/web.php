@@ -32,7 +32,10 @@ Route::post('/task', function (Request $res) {
    $r = json_encode($arr);
    
 
-   return Response::json($r);
+   if(Request::ajax()){
+    return Response::json(Request::all());
+ }
+   //return Response::json($r);
    
     //return Response::json($res::all());
    /*

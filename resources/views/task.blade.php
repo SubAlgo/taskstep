@@ -151,10 +151,16 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
                     success: function(data){
+                        alert("9999 : "+JSON.stringify(data));
+                        var qw = JSON.stringify(data);
+                        var wqs = JSON.parse(qw)
+                        alert("wqs.task : "+wqs.task)
+
                         console.log("jsonString : " + jsonString)
                         console.log("data : " + data)
                         var json = JSON.parse(data)
                         console.log("data parse : " + json)
+                        
                         console.log("data parse .a : " + json.a)
 
                         //console.log(json.a)
