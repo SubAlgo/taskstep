@@ -25,16 +25,13 @@ Route::post('/task', function (Request $res) {
     //$returnValue = json_decode($res);
     //$te = json_encode($returnValue);
 
-
-
-    $arr = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5);
-
-   $r = json_encode($arr);
+    //$arr = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5);
+    //$r = json_encode($arr);
    
 
-   if(Request::ajax()){
+  // if(Request::ajax()){
     return Response::json(Request::all());
- }
+//}
    //return Response::json($r);
    
     //return Response::json($res::all());

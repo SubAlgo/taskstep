@@ -151,10 +151,13 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
                     success: function(data){
-                        alert("9999 : "+JSON.stringify(data));
+                        //เอา data ที่ return มาแปลงเป็น json
                         var qw = JSON.stringify(data);
+                        // parse ข้อมูลเพื่อให้ใช้ได้
                         var wqs = JSON.parse(qw)
-                        alert("wqs.task : "+wqs.task)
+                        //ทดลองแสดงค่า
+                        alert("Data is success : " + qw);
+                        alert("return after success | wqs.task : " + wqs.task + " Step : " + wqs.step);
 
                         console.log("jsonString : " + jsonString)
                         console.log("data : " + data)
