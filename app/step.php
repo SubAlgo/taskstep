@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class step extends Model
 {
-    protected $table = "Reminder";
+    protected $table = "step";
     public $primarykey = "id";
     public $timestamps = true;
 
