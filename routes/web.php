@@ -39,16 +39,24 @@ Route::post('/task', function (Request $req) {
     $json_array  = json_decode($cStep, true);
     $x  = count($json_array);
     $i = 1;
+    */
+    $i = 1;
 
-    foreach($json_array as $val) {
+    foreach($cStep as $val) {
         $step->no = $i;
         $i++;
         $step->title = $val;
         $step->task_id = 1;
-        $step->save();
+        //$step->save();
     }
-    */
+    
+    
     //return Response::json(Request::all());
-    return Response::json($req::get('task'));
+    /*
+    use App\Flight;
+    $flights = App\Flight::all();
+    */
+
+    return Response::json($req::get('step'));
 
 });
