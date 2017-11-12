@@ -8,7 +8,7 @@ class step extends Model
 {
     protected $table = "step";
     public $primarykey = "id";
-    public $timestamps = true;
+    public $timestamps = false;
 
     public function task ()
     {

@@ -21,9 +21,9 @@ Route::get('/task', function () {
 
 Route::post('/task', function (Request $req) {
 
+    //-------- Save TASK ---------
     //สร้าง object จาก Model task
     $task = new App\task;
-    $step = new App\step;
 
     //สร้างตัวแปร cTask เพื่อเก็บค่า task ที่ถูกส่งมาจาก View
     $cTask = $req::get('task');
@@ -34,22 +34,24 @@ Route::post('/task', function (Request $req) {
     //---- $task->save();
     //$myJson = $req->input('task');
 
-    $cStep = $req::get('step');
-    /*
-    $json_array  = json_decode($cStep, true);
-    $x  = count($json_array);
+    //-------- Save STEP ---------
+    $step = new App\step;
+    //$cStep = json($req::get('step'));
+    $cStep = (json_encode($req));
+    
+    
     $i = 1;
-    */
-    $i = 1;
-
-    foreach($cStep as $val) {
+    
+    //foreach($req::get('step') as $val){
+        /*
+    foreach($cStep as $val){
         $step->no = $i;
         $i++;
         $step->title = $val;
         $step->task_id = 1;
-        //$step->save();
-    }
-    
+        $step->save();
+    } 
+    */
     
     //return Response::json(Request::all());
     /*
@@ -58,5 +60,7 @@ Route::post('/task', function (Request $req) {
     */
 
     return Response::json($req::get('step'));
+    //return Response::json($cStep);
+    //return response()->json($cStep);
 
 });
