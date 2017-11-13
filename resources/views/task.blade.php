@@ -156,8 +156,11 @@
                         // parse ข้อมูลเพื่อให้ใช้ได้
                         var wqs = JSON.parse(qw)
                         //ทดลองแสดงค่า
+                        alert("Success data : " + data);
                         alert("Data is success JSON.stringify(data) : " + qw);   //JSON.stringify(data)
-                        alert("return after success | wqs.task : " + wqs.task + " Step : " + wqs.step);
+                        alert("Data is success JSON.stringify(data)[1] : " + qw[1]);
+                        alert("return after success JSON.parse | wqs.task : " + wqs.task + " Step : " + wqs.step);
+                        alert("return after success JSON.parse | wqs.task : " + wqs.task + " Step[1] : " + wqs.step[1]);
 
                         console.log("jsonString : " + jsonString)
                         console.log("data : " + data)
