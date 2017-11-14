@@ -22,48 +22,49 @@ Route::get('/task', function () {
 
 Route::post('/task', function (Request $req) {
 
-    //-------- Save TASK ---------
+    
     //สร้าง object จาก Model task
     $task = new App\task;
+    $step = new App\step;
 
+    //-------- Save TASK ---------
     //สร้างตัวแปร cTask เพื่อเก็บค่า task ที่ถูกส่งมาจาก View
     $cTask = $req::get('task');
-
     //นำตัวแปร cTask มากำหนดค่าให้กับ Task Title
     $task->title = $cTask;
     //บันทึกลง DataBase Table Task
-    //---$task->save();
-    //$myJson = $req->input('task');
+    $task->save();
 
     //-------- Save STEP ---------
-    $step = new App\step;
+    //เอาข้อมูล step ที่รับมาแปลงเป็น Json
+    $stepData = collect($req::get('step'))->toJson();
+    //decode ข้อมูลเพื่อให้สามารถเอาไปใช้ใน foreach ได้
+    $stepDecode = json_decode($stepData);
 
-    $da1 = $req::all();
-    $c =$da1['task'];
-    $d = $da1['step'];
-    //$d1 = $d->toArray();
-    $dd = collect($d)->toJson();
-    
-    
-    $i =1;
-    
-   foreach($d as $val) {
-       $step->no = $i;
-       $i++;
-       $step->title = $val;
-       $step->task_id = 2;
-       //$step->save();
+    //กำหนดค่า taskid = id ของ taskที่ถูกสร้างล่าสุด
+    $task_data = $task->get()->last();
+    $task_id = $task_data->id;
 
-   }
+
+    $i = 0;
+    foreach($stepDecode as $val) {
+        DB::table('step')->insert(
+        ['no' => $i+1,
+        'title' => $stepDecode[$i],
+        'task_id' => $task_id
+        ]);
+        $i++;
+    }
+
         
     /*
     use App\Flight;
     $flights = App\Flight::all();
     */
-
+    return Response($i);
     
     //return Response($req::all());
-    return Response($req::get('step'));
+    //return Response($req::get('step'));
     //return response()->json($d1);
 
     //return Response($req::get('step'));
