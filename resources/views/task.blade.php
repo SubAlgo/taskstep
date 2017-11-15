@@ -91,7 +91,6 @@
                 $("#task_title").val("");
             });
 
-
             //Function Create Step
             $("#create_step").click(function () {
                 var x = $("#step_title").val();
@@ -107,14 +106,14 @@
                 var len = step.length;
                 step[len] = x;
 
-                $("#show_step").append("<li>" + step[len] + "</li>");
+                $("#show_step").append("<li name='li_step'>" + step[len] + "</li>");
                 $("#step_title").val("");
             });
 
             //Function Submit
             $("#submit").click(function () {
                
-                alert("Task : " + task + " | " + "Step : " + step);
+                //alert("Task : " + task + " | " + "Step : " + step);
                 //Check Task value
                 if(task == "") {
                     alert("Task is Empty!!!");
@@ -126,9 +125,6 @@
                     alert("Not have step value!!");
                     return;
                 }
-                
-                //alert("task : " + task);
-                //alert("step : " + step);
 
                 var obj = new Object();
                     obj.task = task;
@@ -136,8 +132,6 @@
 
                 jsonString = JSON.stringify(obj);
                 
-                
-
                 alert("JSON.stringify: " + jsonString)
                 //alert('{{csrf_token()}}');
 
@@ -156,37 +150,24 @@
                         // parse ข้อมูลเพื่อให้ใช้ได้
                         var wqs = JSON.parse(qw)
                         //ทดลองแสดงค่า
-                        alert("Success data : " + data);
-                        alert("Data is success JSON.stringify(data) : " + qw);   //JSON.stringify(data)
-                        alert("Data is success JSON.stringify(data)[1] : " + qw[1]);
-                        alert("return after success JSON.parse | wqs.task : " + wqs.task + " Step : " + wqs.step);
-                        alert("return after success JSON.parse | wqs.task : " + wqs.task + " Step[1] : " + wqs.step[1]);
+                        alert("Create Data Success");
+                       
+                        data = "";
+                        task = "";
+                        step = [];
 
-                        console.log("jsonString : " + jsonString)
-                        console.log("data : " + data)
-                        var json = JSON.parse(data)
-                        console.log("data parse : " + json)
-                        
-                        console.log("data parse .a : " + json.a)
-
-                        //console.log(json.a)
-                        //console.log(jsonString)
-                        //var json1 = JSON.parse(jsonString);
-                        //console.log(json1.task)
-                        
+                        //ข้อความ task ใช้วิธีเอาค่าว่างมาทับ
+                        $("#show_task").html(task);
+                        //ข้อความ step ใช้วิธี hide ด้วย ElementByName
+                        var hideElement = document.getElementsByName("li_step");
+                        $(hideElement).hide();
                     },
                     error: function (data) {
-                            alert('Error:qqqq', data);
+                            alert('Error: Process has problem!!', data);
                         }
                 });
-                
-                   
-
-
             });
         });
 </script>
-
-
 
 @endsection

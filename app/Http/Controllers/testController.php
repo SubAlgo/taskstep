@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 class testController extends Controller
 {
     public function test() {
-
         $data = collect(['task1','task2','task3','task4'])->toJson();
         echo var_dump($data);
         echo '<br>';
@@ -22,12 +21,6 @@ class testController extends Controller
             echo "data in foreach : $val";
         }
         
-
-
-
-
-
-
         /*
         $in1 =  json_encode(['a' => 1, 'b' => 2, 'c' => 3]);
         $in2 = collect(['tai','ww','ee'])->toJson();
