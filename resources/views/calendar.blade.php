@@ -10,7 +10,7 @@
  
 </head>
 <body>
-    <input type="text" id="mydate" gldp-id="mydate" />
+    <input type="text" id="example" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script src="{{elixir('js/glDatePicker.min.js')}}"></script>
     
