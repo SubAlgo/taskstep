@@ -22,6 +22,8 @@ Route::get('/task', function () {
 
 Route::post('/task', 'TaskStepController@createTaskStep');
 
+Route::get('/gettask', 'TaskStepController@gettask');
+
 Route::get('/calendar', function () {
     return view('calendar');
 });

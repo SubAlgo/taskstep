@@ -10,8 +10,7 @@ use App\step;
 
 class TaskStepController extends Controller
 {
-    public function createTaskStep (Request $req) 
-    {
+    public function createTaskStep (Request $req) {
         $task = new task;
         $step = new step;
 
@@ -46,4 +45,14 @@ class TaskStepController extends Controller
 
             return response()->json($req);
         }
+
+
+        //----GET_ALL_TASK
+        public function gettask() {
+            $task = new task;
+            $data = DB::table('task')->select('*')->where('id','<=',10)->get();
+            return response($data);
+        }
+
+        
 }
