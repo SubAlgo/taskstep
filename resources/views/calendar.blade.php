@@ -14,13 +14,29 @@
 
 <div class="ui stacked segment">
     <label for="">TaskList</label>
-    <select>
-        <option value="volvo">Volvo</option>
-        <option value="saab">Saab</option>
-        <option value="opel">Opel</option>
-        <option value="audi">Audi</option>
+
+    <select id="showTaskList">
+        
     </select>
 
+</div>
+
+<div class="ui stacked segment">
+    <p>
+        <label for="">Date:</label>
+        <label for="" id="showDate">---</label>
+    </p>
+
+    <p>
+        <label for="">Time:</label>
+        <label for="" id="showTime">---</label>
+    </p>
+
+    <p>
+        <label for="">TaskID:</label>
+        <label for="" id="showTask">---</label>
+    </p>
+    <span class="ui button primary" name="show_all" id="show_all">Show All Value</span>
 </div>
 
 
@@ -30,9 +46,9 @@
 
 
 <script type="text/javascript">
-    var vHour;
+    var vDate;
     var vTime;
-    var TaskList;
+    var vTask;
 
     $(window).load(function () {
         $('#date').glDatePicker();
@@ -47,11 +63,10 @@
                 alert("data : " + data)
                 alert('stringify : ' + myData);
                 var da = JSON.parse(myData);
-                i = (data).length;
-                w = 0;
+                
                 da.forEach(function (element) {
-                   alert(JSON.stringify(element.id) + " | " + JSON.stringify(element.title));
-                   
+                   //alert(JSON.stringify(element.id) + " | " + JSON.stringify(element.title));
+                   $('#showTaskList').append("<option id='opttask' value="+element.id+">"+element.title+"</option>")
                 });
                 
                 //alert("Number of data : " + i);
@@ -69,16 +84,31 @@
     //----- 
     $('#show_date').click(function(){
         var x = $("#date").val();
-        alert(x);
+        vDate = x;
+        //alert(x);
+        $('#showDate').html(vDate)
     });
 
     //-----
     $('#show_time').click(function () {
         var x = $("#myTime").val();
-        alert(x);
+        vTime = x;
+        $('#showTime').html(vTime)
     });
 
     //---------------------------
+
+    $('#showTaskList').change(function () {
+        var x = $("#showTaskList").val();
+        vTask = x;
+        $('#showTask').html(vTask)
+    });
+
+    //----------------------------
+
+    $('#show_all').click(function() {
+        alert("Data : " + vDate + " | " + "Time : " + vTime + " | " + "Task : " + vTask);
+    });
     
 
 </script>
