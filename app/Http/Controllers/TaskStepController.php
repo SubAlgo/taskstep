@@ -54,5 +54,15 @@ class TaskStepController extends Controller
             return response($data);
         }
 
+        //----- Get Task_Title
+        public function gettasktitle(Request $req) {
+            //Request ที่ได้มาคือ ค่า id ที่จะเอามา get หา Task_Title
+            $x = collect($req)->toJson();
+            $id = json_decode($x);
+            $title = DB::table('task')->select('title')->where('id', '=' , $id)->get();
+            
+            return response($title);
+        }
+
         
 }
