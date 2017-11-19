@@ -137,12 +137,44 @@
 
     $('#show_all').click(function() {
         
+        var mystr = vDate.split('/');
+        var d,m,y;
+        var myTime;
+        var myDate;
 
-        alert(  "Data : " + vDate + " | " + 
-                "Time : " + vTime + " | " + 
+        
+        //Format Date
+        if(mystr[0]<10){
+            d = "0" + mystr[0]
+        } else {
+            d = mystr[0]
+        }
+
+        //Format Month
+        if (mystr[1] < 10) {
+            m = "0" + mystr[1]
+        } else {
+            m = mystr[1]
+        }
+
+        //Format Year
+        y = mystr[2]-543
+
+        myDate = y+"-"+m+"-"+d
+
+        myTime = vTime+":"+"00";
+
+        var returnData = myDate + " " + myTime
+
+
+        alert(  "Data : " + myDate + " | " + 
+                "Time : " + myTime + " | " + 
                 "TaskId : " + vTaskid + " | " + 
-                "TaskTitle : " + vTaskTitle
+                "TaskTitle : " + vTaskTitle + " | " + 
+                "Return DateTime : " + returnData
               );
+
+        //date_default_timezone_set('asia/bangkok')
     });
     
 

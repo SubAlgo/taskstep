@@ -12,6 +12,8 @@
 */
 Route::get('/test', 'testController@test'); 
 
+Route::get('/ical', 'icalController@ical'); 
+
 Route::get('/', function () {
     return view('index');
 });
