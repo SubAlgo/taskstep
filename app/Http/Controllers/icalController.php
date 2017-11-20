@@ -31,6 +31,7 @@ class icalController extends Controller
         $vEvent->setUseTimezone(true);
 
         // 3. Add event to calendar
+        
         $vCalendar->addComponent($vEvent);
         }
 
