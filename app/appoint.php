@@ -4,16 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class step extends Model
+class appoint extends Model
 {
-    protected $table = "step";
+    protected $table = "appoint";
     public $primarykey = "id";
     public $timestamps = false;
 
     public function task ()
     {
-      //return $this->belongsTo(task::class, 'task','id');
       return $this->belongsTo('App\task');
-      //return $this->belongsTo('App\task', 'task_id'); //arg[2] คือ  'foreign_key'
+      //return $this->belongsTo('App\task', 'foreign_key');
+      //return $this->belongsTo('App\task', 'foreign_key', 'other_key');
     }
 }

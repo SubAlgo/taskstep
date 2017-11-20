@@ -166,15 +166,34 @@
 
         var returnData = myDate + " " + myTime
 
+        var appointData = {"DateTime":returnData,"taskId":vTaskid};
+        //alert('weq :' + JSON.stringify(appointData))
+
+          $.ajax({
+            type: "POST",
+            url: "setappoint",
+            data: JSON.stringify(appointData),
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function (data) {
+                alert("Wow : " + JSON.stringify(data))
+            },
+            error: function () {
+                alert("Error!!!");
+            }
+        }); 
+
 
         alert(  "Data : " + myDate + " | " + 
                 "Time : " + myTime + " | " + 
                 "TaskId : " + vTaskid + " | " + 
                 "TaskTitle : " + vTaskTitle + " | " + 
                 "Return DateTime : " + returnData
-              );
+        );
 
-        //date_default_timezone_set('asia/bangkok')
+     
+
+        
     });
     
 

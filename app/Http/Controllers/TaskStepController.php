@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\task;
 use App\step;
+use App\appoint;
 
 class TaskStepController extends Controller
 {
@@ -62,6 +63,22 @@ class TaskStepController extends Controller
             $title = DB::table('task')->select('title')->where('id', '=' , $id)->get();
             
             return response($title);
+        }
+
+        public function createAppoint(Request $req) {
+           
+            //{"DateTime":"2017-11-16 11:11:00","taskId":"4"}
+            $d = collect($req->get('DateTime'))->toJson();
+            $t = collect($req->get('taskId'))->toJson();
+
+            $dd = json_decode($d);
+            $tt = json_decode($t);
+
+            DB::table('appoint')->insert(['date'=> $dd[0],'task_id' => $tt[0]]);
+
+           
+
+            return response($t);
         }
 
         

@@ -24,6 +24,8 @@ Route::get('/task', function () {
 
 Route::post('/task', 'TaskStepController@createTaskStep');
 
+Route::post('/setappoint', 'TaskStepController@createAppoint');
+
 Route::get('/gettask', 'TaskStepController@gettask');
 
 Route::post('/gettasktitle' , 'TaskStepController@getTaskTitle');

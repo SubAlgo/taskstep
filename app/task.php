@@ -12,6 +12,14 @@ class task extends Model
 
     public function step ()
   {
-    return $this->hasMany(step::class, 'ReminderType', 'id')->get();
+    //return $this->hasMany(step::class, 'step', 'id')->get();
+    return $this->hasMany('App\step');
   }
+
+    public function appoint ()
+  {
+    return $this->hasMany('App\appoint');
+  }
+
+  
 }
