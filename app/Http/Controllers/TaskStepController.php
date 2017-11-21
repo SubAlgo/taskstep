@@ -66,19 +66,22 @@ class TaskStepController extends Controller
         }
 
         public function createAppoint(Request $req) {
-           
-            //{"DateTime":"2017-11-16 11:11:00","taskId":"4"}
-            $d = collect($req->get('DateTime'))->toJson();
-            $t = collect($req->get('taskId'))->toJson();
 
-            $dd = json_decode($d);
-            $tt = json_decode($t);
+             //{"DateTime":"2017-11-17 21:11:00","taskId":"3"}
+            $x = collect($req)->toJson();
+            $data = json_decode($x);
+            $myDate = $data->DateTime;
+            $myTaskId = $data->taskId;
+            
+            //$data_Date_encode = json_encode($data->DateTime); //"2017-11-17 21:11:00"
+            //$dat_taskId_encode = json_encode($data->taskId); //"3"
 
-            DB::table('appoint')->insert(['date'=> $dd[0],'task_id' => $tt[0]]);
+          
+            //DB::table('appoint')->insert(['date'=> $myDate,'task_id' => $myTaskId]);
+                      
 
-           
-
-            return response($t);
+            return response($req);
+            //return response($d);
         }
 
         

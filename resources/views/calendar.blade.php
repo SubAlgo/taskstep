@@ -18,7 +18,7 @@
     <label for="">TaskList</label>
 
     <select id="showTaskList">
-        
+        <option value="">Pleace select task</option>
     </select>
 
 </div>
@@ -38,7 +38,8 @@
         <label for="">Task:</label>
         <label for="" id="showTask">---</label>
     </p>
-    <span class="ui button primary" name="show_all" id="show_all">Show All Value</span>
+    <span class="ui button primary" name="save_db" id="save_db">Save to Database</span>
+    <span class="ui button positive" name="create_ical" id="create_ical">Create ical file</span>
 </div>
 
 
@@ -48,11 +49,11 @@
 
 
 <script type="text/javascript">
-    var vDate;      //เก็บค่า วัน/เดือน/ปี
-    var vTime;      //เก็บค่า เวลา
-    var vTaskTitle; //เก็บค่า TaskTitle
-    var vTaskid;    //เก็บค่า TaskId
-    var vData;      //เก็บค่า JSON.parse(myData)
+    var vDate = ''      //เก็บค่า วัน/เดือน/ปี
+    var vTime = ''      //เก็บค่า เวลา
+    var vTaskTitle = '' //เก็บค่า TaskTitle
+    var vTaskid = ''    //เก็บค่า TaskId
+    var vData = ''      //เก็บค่า JSON.parse(myData)
 
      $.ajaxSetup({
             headers: {
@@ -61,7 +62,7 @@
         });
 
     $(window).load(function () {
-        $('#date').glDatePicker();
+        $('#date').glDatePicker()
         //----Load task
         $.ajax({
             type: "GET",
@@ -69,13 +70,10 @@
             dataType: 'json',
             success: function(data){
                 var i = 0;
-                var myData = JSON.stringify(data);
-                //alert("data : " + data)
-                //alert('stringify : ' + myData);
-                var dataParse = JSON.parse(myData);
-                vData = dataParse;                
-                dataParse.forEach(function (element) {
-                   //alert(JSON.stringify(element.id) + " | " + JSON.stringify(element.title));
+                var myData = JSON.stringify(data)
+                var dataParse = JSON.parse(myData)
+                vData = dataParse             
+                dataParse.forEach(function (element) {                   
                    $('#showTaskList').append("<option id='opttask' value="+element.id+">"+element.title+"</option>")
                 });
                 
@@ -86,29 +84,41 @@
                 //alert('da[1].stringify' + da1)
             },
             error: function(){
-                alert("Error!!!");
+                alert("Error!!!")
             }
-        });
-    });
+        })
+    })
 
-    //----- Function กำหนดค่า Date
+    /*Function กำหนดค่า Date
+    -----------------------*/
     $('#show_date').click(function(){
-        var x = $("#date").val();
-        vDate = x;
+        var x = $("#date").val()
+        vDate = x
         $('#showDate').html(vDate)
     });
 
-    //----- Function กำหนดค่า Time
+    /*Function กำหนดค่า Time
+    ----------------------*/
     $('#show_time').click(function () {
-        var x = $("#myTime").val();
-        vTime = x;
+        var x = $("#myTime").val()
+        vTime = x
         $('#showTime').html(vTime)
     });
 
-    //----- Function กำหนดค่า Task
-
+    /*Function กำหนดค่า Task
+    -----------------------*/
     $('#showTaskList').change(function () {
-        var x = $("#showTaskList").val();   //ค่า ID ของ Task
+        var x = $("#showTaskList").val()   //ค่า ID ของ Task
+
+        /*Check Task value
+        -------------------
+        */
+        if(x == '') {
+            vTaskid = ''
+            $('#showTask').html('---')
+            return
+        }
+
         vTaskid = x;
         alert(vTaskid)
 
@@ -121,80 +131,126 @@
             success: function (data) {
                 dataStr = JSON.stringify(data)
                 dataParse = JSON.parse(dataStr)
-                vTaskTitle = dataParse[0].title;
-                $('#showTask').html(dataParse[0].title)
+                vTaskTitle = dataParse[0].title
+                $('#showTask').html(vTaskTitle)
             },
             error: function () {
-                alert("Error!!!");
+                alert("Error!!!")
             }
         });
-
-       
-        
     });
 
-    //----------------------------
+    /*Function Save value to DB
+    เพื่อเอาเตรียมไว้สร้าง ไฟล์ ical ภายหลัง
+    --------------------------------*/
+    $('#save_db').click(function() {
 
-    $('#show_all').click(function() {
-        
-        var mystr = vDate.split('/');
+        /*Check Value
+        -----------*/
+        if(vDate == '' ) {
+            alert("Date is null")
+            return
+        }
+
+        if (vTime == '') {
+            alert("Time is null")
+            return
+        }
+
+        if (vTaskid == '') {
+            alert("Task is null")
+            return
+        }
+
+        /* Set format Date
+        ----------------*/
+        var mystr = vDate.split('/')
         var d,m,y;
         var myTime;
         var myDate;
 
-        
-        //Format Date
+        /*Set format Date
+        ----------------*/
         if(mystr[0]<10){
             d = "0" + mystr[0]
         } else {
             d = mystr[0]
         }
 
-        //Format Month
+        /*Set format Month
+        ----------------*/
         if (mystr[1] < 10) {
             m = "0" + mystr[1]
         } else {
             m = mystr[1]
         }
 
-        //Format Year
+        /*Set format Year
+        ---------------*/
         y = mystr[2]-543
 
-        myDate = y+"-"+m+"-"+d
+        /*Set to YYYY-MM-DD
+        ------------------*/
+        myDate = y + "-" + m + "-" + d
 
-        myTime = vTime+":"+"00";
+        /*Set to 00:00:00
+        ------------------*/
+        myTime = vTime + ":" + "00"
 
+        /*Set to YYYY-MM-DD 00:00:00
+        ------------------*/
         var returnData = myDate + " " + myTime
 
-        var appointData = {"DateTime":returnData,"taskId":vTaskid};
-        //alert('weq :' + JSON.stringify(appointData))
-
-          $.ajax({
+        /*Set Json Data
+        -------------*/
+        var appointData = {"DateTime":returnData,"taskId":vTaskid}
+        
+        $.ajax({
             type: "POST",
             url: "setappoint",
             data: JSON.stringify(appointData),
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             success: function (data) {
-                alert("Wow : " + JSON.stringify(data))
+                /*Clear Show
+                -------------*/
+                $('#showDate').html('---')
+                $('#showTime').html('---')
+                $('#showTask').html('---')
+
+                /*Clear Data Value
+                -------------*/
+                vDate = ''
+                vTime = ''
+                vTaskTitle = ''
+                vTaskid = ''
+                vData = ''  
+
+                /*Clear Input Form
+                -------------*/
+                $('#date').val('')
+                $('#myTime').val('')
+                
+                alert("Create Success : " + JSON.stringify(data))
             },
             error: function () {
-                alert("Error!!!");
+                alert("Error!!!")
             }
-        }); 
+        })
 
-
+        /*
         alert(  "Data : " + myDate + " | " + 
                 "Time : " + myTime + " | " + 
                 "TaskId : " + vTaskid + " | " + 
                 "TaskTitle : " + vTaskTitle + " | " + 
                 "Return DateTime : " + returnData
         );
-
-     
-
-        
+        */
     });
+
+    $('#create_ical').click(function(){
+        
+    })
     
 
 </script>
