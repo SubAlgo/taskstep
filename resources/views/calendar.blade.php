@@ -46,6 +46,7 @@
 
 
 <script src="{{elixir('js/glDatePicker.min.js')}}"></script>
+<script src="{{elixir('js/create_val.js')}}"></script>
 
 
 <script type="text/javascript">
@@ -145,70 +146,23 @@
     --------------------------------*/
     $('#save_db').click(function() {
 
-        /*Check Value
-        -----------*/
-        if(vDate == '' ) {
-            alert("Date is null")
-            return
-        }
+        /*------
+        Pase
 
-        if (vTime == '') {
-            alert("Time is null")
-            return
-        }
-
-        if (vTaskid == '') {
-            alert("Task is null")
-            return
-        }
-
-        /* Set format Date
-        ----------------*/
-        var mystr = vDate.split('/')
-        var d,m,y;
-        var myTime;
-        var myDate;
-
-        /*Set format Date
-        ----------------*/
-        if(mystr[0]<10){
-            d = "0" + mystr[0]
-        } else {
-            d = mystr[0]
-        }
-
-        /*Set format Month
-        ----------------*/
-        if (mystr[1] < 10) {
-            m = "0" + mystr[1]
-        } else {
-            m = mystr[1]
-        }
-
-        /*Set format Year
-        ---------------*/
-        y = mystr[2]-543
-
-        /*Set to YYYY-MM-DD
-        ------------------*/
-        myDate = y + "-" + m + "-" + d
-
-        /*Set to 00:00:00
-        ------------------*/
-        myTime = vTime + ":" + "00"
-
-        /*Set to YYYY-MM-DD 00:00:00
-        ------------------*/
-        var returnData = myDate + " " + myTime
+        ------*/
 
         /*Set Json Data
         -------------*/
-        var appointData = {"DateTime":returnData,"taskId":vTaskid}
+        //var appointData = { "DateTime": returnData, "taskId": vTaskid }
+        
+        var appointD = create_ical(vDate, vTime, vTaskid)
+        //
         
         $.ajax({
             type: "POST",
             url: "setappoint",
-            data: JSON.stringify(appointData),
+            //data: JSON.stringify(appointData),
+            data: appointD,
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             success: function (data) {
@@ -219,12 +173,13 @@
                 $('#showTask').html('---')
 
                 /*Clear Data Value
-                -------------*/
+                
                 vDate = ''
                 vTime = ''
                 vTaskTitle = ''
                 vTaskid = ''
                 vData = ''  
+                -------------*/
 
                 /*Clear Input Form
                 -------------*/
@@ -250,6 +205,43 @@
 
     $('#create_ical').click(function(){
         
+        var appointD = (create_ical(vDate, vTime, vTaskid))
+        $.ajax({
+            type: "POST",
+            url: "ical",
+            //data: JSON.stringify(appointData),
+            data: appointD,
+            contentType: "application/json; charset=utf-8",
+            dataType: "application/json",
+            success: function (data) {
+                /*Clear Show
+                
+                $('#showDate').html('---')
+                $('#showTime').html('---')
+                $('#showTask').html('---')
+                -------------*/
+
+                /*Clear Data Value
+                
+                vDate = ''
+                vTime = ''
+                vTaskTitle = ''
+                vTaskid = ''
+                vData = ''  
+                -------------*/
+
+                /*Clear Input Form
+                
+                $('#date').val('')
+                $('#myTime').val('')
+                -------------*/
+
+                alert("Create Success : " + JSON.stringify(data))
+            },
+            error: function () {
+                alert("Error!!!")
+            }
+        })
     })
     
 
