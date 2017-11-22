@@ -59,7 +59,7 @@ class ical1Controller extends Controller
         // 4. Set headers
         
         header('Content-Type: text/calendar; charset=utf-8');
-        header('Content-Disposition: attachment; filename="cal.ics"');
+        header('Content-Disposition: attachment; filename="cal223.ics"');
 
        // 5. Output
        $yo = $vCalendar->render();

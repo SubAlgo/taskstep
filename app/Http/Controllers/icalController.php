@@ -61,7 +61,10 @@ class icalController extends Controller
         // 4. Set headers
         $headers = [
             'Content-type'        => 'text/calendar; charset=utf-8;',
-            'Content-Disposition' => 'attachment; filename="myical.ics"',
+            'Content-Disposition' => 'attachment; filename=myical1.ics',
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
         ];
 
        
@@ -79,20 +82,19 @@ class icalController extends Controller
         Storage::put($mixPath, $contents);
         -----------------*/
         
+        
         /*Create StoragePath
         ------------------*/        
         $storagePath = storage_path('app\\'.$mixPath); //ที่เก็บไฟล์  C:\xampp\htdocs\task\storage\app\public\myical9.ics
 
-        return response()->download($storagePath, 'myical.ics', $headers);
-        //return response()->caps($storagePath, $filename);
+        return response()->download($storagePath);
+        //return response()->download($storagePath, $filename, $headers);
 
-        Response::macro('caps', function ($content, $f) {
-            $headers = [
-                'Content-type'        => 'text/calendar; charset=utf-8;',
-                'Content-Disposition' => 'attachment; filename="myical.ics"',
-            ];
-            return Response::make($content, $f, $headers);
-        });
+        //$te = (public_path('css\\'.'app.css'));
+        //return response()->download($te);
+
+        //return response($storagePath);
+
        
     }
 }
