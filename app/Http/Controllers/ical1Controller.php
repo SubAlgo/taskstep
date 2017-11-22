@@ -36,6 +36,13 @@ class ical1Controller extends Controller
         //$vEvent->setDtStart(new \DateTime('2012-11-11 13:00:00'));
         //$vEvent->setDtEnd(new \DateTime('2012-11-11 14:30:00'));
         $vEvent->setDtStart(new \DateTime($myDate));
+        $qw =   (new \DateTime($myDate));
+        //print $qw;
+
+        $discount_start_date = '03/27/2012 8:47';    
+        $start_date = date('Y-m-d H:i:s', strtotime($discount_start_date));
+        echo '<br>'.$start_date.'<br>';
+
         $vEvent->setDtEnd(new \DateTime($myDate));
         $vEvent->setSummary($myTaskTitle);
         //$vEvent->setSummary('test-ical');
@@ -59,7 +66,7 @@ class ical1Controller extends Controller
         // 4. Set headers
         
         header('Content-Type: text/calendar; charset=utf-8');
-        header('Content-Disposition: attachment; filename="cal223.ics"');
+       // header('Content-Disposition: attachment; filename="cal223.ics"');
 
        // 5. Output
        $yo = $vCalendar->render();

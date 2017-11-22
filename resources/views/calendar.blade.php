@@ -157,6 +157,7 @@
         //var appointData = { "DateTime": returnData, "taskId": vTaskid }
         
         var appointD = create_ical(vDate, vTime, vTaskid)
+        alert("Data befor send : " + appointD)
         //
         
         $.ajax({
@@ -195,19 +196,21 @@
             }
         })
 
-        /*
+        /*Preview Data
+        
         alert(  "Data : " + myDate + " | " + 
                 "Time : " + myTime + " | " + 
                 "TaskId : " + vTaskid + " | " + 
                 "TaskTitle : " + vTaskTitle + " | " + 
                 "Return DateTime : " + returnData
         );
-        */
+        ---------------*/        
     });
 
     $('#create_ical').click(function(){
         
         var appointD = (create_ical(vDate, vTime, vTaskid))
+        alert("Data befor send : " + appointD)
         $.ajax({
             type: "POST",
             url: "ical",
@@ -216,56 +219,39 @@
             contentType: "application/json; charset=utf-8",
             //dataType: "binary",
             success: function (data) {
-                /*Clear Show
                 
+                /*Clear Show Data
+                -------------*/
                 $('#showDate').html('---')
                 $('#showTime').html('---')
                 $('#showTask').html('---')
-                -------------*/
-
-                /*Clear Data Value
                 
+                /*Clear Data Value
+                -------------*/
                 vDate = ''
                 vTime = ''
                 vTaskTitle = ''
                 vTaskid = ''
                 vData = ''  
-                -------------*/
+                
 
                 /*Clear Input Form
-                
+                -------------*/
                 $('#date').val('')
                 $('#myTime').val('')
-                -------------*/
-                //+ JSON.stringify(data)
+                
+                //alert(JSON.stringify(data))
                 alert("Create Success : " + data)
 
-
-                /*
-                var a = document.createElement("a");
-                a.href = data;
-                a.download = 'myical.ics';
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                */
-
+                /* Methos DownloadData
+                ----------------------*/
                 var blob = new Blob([data]);
                 var link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);
                 link.download = "icalfile.ics";
                 link.click();
                 
-
-                //download(new Blob([data]), "ical.ics", "text/calendar");
-                //download("hello world", "dlText.txt", "text/plain")
-                //$('#test').html(data);
-                //download.bind(true, "text/html", "dlAjaxCallback.html")
-                alert("ง่ะ")
-                
-
-                
-                
+                 
             },
             error: function () {
                 alert("Error!!!")
