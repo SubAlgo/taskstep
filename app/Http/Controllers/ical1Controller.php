@@ -3,23 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-
 use App\task;
 use DB;
 
-class icalController extends Controller
+class ical1Controller extends Controller
 {
-    public function ical(Request $req) {
+    public function ical() {
 
-
-        $x = collect($req)->toJson();
-        $data = json_decode($x);
-        $myDate = $data->DateTime;
-        $myTaskId = $data->taskId;
+        $myObj = collect(['DateTime' => '2017-11-09 12:12:00', 'TaskId' => 3])->toJson();
+        //echo '$myObj : ' . var_dump($myObj) .'<br>';
+        $myData = json_decode($myObj);
+        echo '$myData : ' . var_dump($myData) . '<br>';
+        $myDate = $myData->DateTime;
+        //echo '$myDate : ' . var_dump($myDate) . '<br>';
+        $myTaskId = $myData->TaskId;
+        //echo '$myDate : ' . var_dump($myTaskId) . '<br>';
+        
         $task = new task;
-        $getTitle = $task->select('title')->where('id', $myTaskId)->get();
+        $getTitle = $task->select('title')->where('id', $myTaskId)->get('first');
         $myTaskTitle = ($getTitle[0]->title);
+
         
         
         // set default timezone (PHP 5.4)
@@ -27,9 +30,7 @@ class icalController extends Controller
         // 1. Create new calendar
         $vCalendar = new \Eluceo\iCal\Component\Calendar('www.example.com');
 
-        //for ($i = 0; $i <2; $i++){
-            
-
+        
         // 2. Create an event
         $vEvent = new \Eluceo\iCal\Component\Event();
         //$vEvent->setDtStart(new \DateTime('2012-11-11 13:00:00'));
@@ -53,35 +54,25 @@ class icalController extends Controller
         // 3. Add event to calendar
         
         $vCalendar->addComponent($vEvent);
-        //}
+        
 
         // 4. Set headers
-        $headers = [
-            'Content-type'        => 'text/calendar; charset=utf-8',
-            'Content-Disposition' => 'attachment; filename="cal.ics"',
-        ];
-        $contents = $vCalendar->render();
         
-        //Save file
-        $pathToFile = '/ical3.ics';
-        
-        //Storage::put($pathToFile, $contents);
-        $files1 = public_path(). "/ical3.ics";
-
-        download($files1, $contents, $headers)->deleteFileAfterSend(true);
+        header('Content-Type: text/calendar; charset=utf-8');
+        header('Content-Disposition: attachment; filename="cal.ics"');
 
        // 5. Output
-        
-        //
-        //return response()->download($);
-        //return response()->download($pathToFile);
-        
-        //return response()->download($pathToFile, $name, $headers);
-        //return response()->download($pathToFile)->deleteFileAfterSend(true);
-        
-        //return Response::make($vCalendar->render());
+       $yo = $vCalendar->render();
+        //echo $vCalendar->render();
+        echo $yo;
+
+      //  return response()->download($vCalendar->render());
         
         
-        return response($pathToFile);
+        //return response($req);
+        
+        
+
+        
     }
 }

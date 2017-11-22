@@ -77,7 +77,7 @@ class TaskStepController extends Controller
             //$dat_taskId_encode = json_encode($data->taskId); //"3"
 
           
-            DB::table('appoint')->insert(['date'=> $myDate,'task_id' => $myTaskId]);
+            //DB::table('appoint')->insert(['date'=> $myDate,'task_id' => $myTaskId]);
                       
 
             return response($req);

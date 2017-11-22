@@ -167,10 +167,11 @@
             dataType: 'json',
             success: function (data) {
                 /*Clear Show
-                -------------*/
+                
                 $('#showDate').html('---')
                 $('#showTime').html('---')
                 $('#showTask').html('---')
+                -------------*/
 
                 /*Clear Data Value
                 
@@ -212,7 +213,7 @@
             //data: JSON.stringify(appointData),
             data: appointD,
             contentType: "application/json; charset=utf-8",
-            dataType: "application/json",
+            dataType: "html",
             success: function (data) {
                 /*Clear Show
                 
@@ -235,8 +236,8 @@
                 $('#date').val('')
                 $('#myTime').val('')
                 -------------*/
-
-                alert("Create Success : " + JSON.stringify(data))
+                //+ JSON.stringify(data)
+                alert("Create Success : " + data)
             },
             error: function () {
                 alert("Error!!!")
