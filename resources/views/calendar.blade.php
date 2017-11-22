@@ -10,7 +10,7 @@
     <span class="ui button primary" name="show_val" id="show_date">Select date value</span>
      &nbsp
     <label for="time">เวลา</label>
-    <input type="time" id="myTime" value="">
+    <input type="time" id="myTime" value="00:00">
     <span class="ui button primary" name="show_val" id="show_time">Select time value</span>
 </div>
 
@@ -40,6 +40,7 @@
     </p>
     <span class="ui button primary" name="save_db" id="save_db">Save to Database</span>
     <span class="ui button positive" name="create_ical" id="create_ical">Create ical file</span>
+    
 </div>
 
 
@@ -238,6 +239,16 @@
                 -------------*/
                 //+ JSON.stringify(data)
                 alert("Create Success : " + data)
+                //download(new Blob([data]), "ical.ics", "text/calendar");
+                //download("hello world", "dlText.txt", "text/plain")
+                //$('#test').html(data);
+                
+                //download.bind(true, "text/html", "dlAjaxCallback.html")
+                alert("ง่ะ")
+                
+
+                
+                
             },
             error: function () {
                 alert("Error!!!")

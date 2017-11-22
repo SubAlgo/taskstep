@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Response;
+
 use App\task;
 use DB;
 
@@ -57,31 +60,39 @@ class icalController extends Controller
 
         // 4. Set headers
         $headers = [
-            'Content-type'        => 'text/calendar; charset=utf-8',
-            'Content-Disposition' => 'attachment; filename="cal.ics"',
+            'Content-type'        => 'text/calendar; charset=utf-8;',
+            'Content-Disposition' => 'attachment; filename="myical.ics"',
         ];
+
+       
         $contents = $vCalendar->render();
         
         //Save file
-        $pathToFile = '/ical3.ics';
-        
-        //Storage::put($pathToFile, $contents);
-        $files1 = public_path(). "/ical3.ics";
 
-        download($files1, $contents, $headers)->deleteFileAfterSend(true);
+        $filename = 'myical';
+        $myPath = 'public\\';
+        $filename = $filename.'.ics';
+        $mixPath = $myPath.$filename; 
+        
+        /*Create .ics ไฟล์
+        
+        Storage::put($mixPath, $contents);
+        -----------------*/
+        
+        /*Create StoragePath
+        ------------------*/        
+        $storagePath = storage_path('app\\'.$mixPath); //ที่เก็บไฟล์  C:\xampp\htdocs\task\storage\app\public\myical9.ics
 
-       // 5. Output
-        
-        //
-        //return response()->download($);
-        //return response()->download($pathToFile);
-        
-        //return response()->download($pathToFile, $name, $headers);
-        //return response()->download($pathToFile)->deleteFileAfterSend(true);
-        
-        //return Response::make($vCalendar->render());
-        
-        
-        return response($pathToFile);
+        return response()->download($storagePath, 'myical.ics', $headers);
+        //return response()->caps($storagePath, $filename);
+
+        Response::macro('caps', function ($content, $f) {
+            $headers = [
+                'Content-type'        => 'text/calendar; charset=utf-8;',
+                'Content-Disposition' => 'attachment; filename="myical.ics"',
+            ];
+            return Response::make($content, $f, $headers);
+        });
+       
     }
 }
