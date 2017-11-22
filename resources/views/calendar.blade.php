@@ -241,7 +241,7 @@
                 $('#myTime').val('')
                 
                 //alert(JSON.stringify(data))
-                alert("Create Success : " + data)
+                //alert("Create Success : " + data)
 
                 /* Methos DownloadData
                 ----------------------*/

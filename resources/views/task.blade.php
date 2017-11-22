@@ -132,7 +132,7 @@
 
                 jsonString = JSON.stringify(obj);
                 
-                alert("JSON.stringify: " + jsonString)
+                //alert("JSON.stringify: " + jsonString)
                 //alert('{{csrf_token()}}');
 
                 $.ajax({

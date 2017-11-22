@@ -69,7 +69,7 @@ function create_ical(vDate, vTime, vTaskid){
     /*Set Json Data
     -------------*/
     var returnData = vDate + ' ' + vTime
-    alert ("lolo" + returnData)
+    
     var appointData = { "DateTime": returnData, "taskId": vTaskid }
 
     return JSON.stringify(appointData)
