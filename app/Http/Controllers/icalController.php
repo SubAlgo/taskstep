@@ -81,9 +81,9 @@ class icalController extends Controller
         ------------------*/        
         $storagePath = storage_path('app\\'.$mixPath); //ที่เก็บไฟล์  C:\xampp\htdocs\task\storage\app\public\myical9.ics
 
-        //return response()->download($storagePath);
+        return response()->download($storagePath);
         //return response()->download($storagePath, $filename, $headers);
        
-        return response($start_date); 
+        //return response($start_date); 
     }
 }

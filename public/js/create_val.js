@@ -53,7 +53,7 @@ function create_ical(vDate, vTime, vTaskid){
 
     /*Set to YYYY-MM-DD
     ------------------*/
-    vDate = d + "/" + m + "/" + y
+    vDate = m + "/" + d + "/" + y
     
 
     /*Set to 00:00:00
