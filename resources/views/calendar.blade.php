@@ -18,7 +18,7 @@
     <label for="">TaskList</label>
 
     <select id="showTaskList">
-        <option value="">Pleace select task</option>
+        <option>Pleace select task</option>
     </select>
 
 </div>
@@ -40,11 +40,9 @@
     </p>
     <span class="ui button primary" name="save_db" id="save_db">Save to Database</span>
     <span class="ui button positive" name="create_ical" id="create_ical">Create ical file</span>
+    <span class="ui button negative" name="clear_value" id="clear_value">Clear</span>
     
 </div>
-
-
-
 
 <script src="{{elixir('js/glDatePicker.min.js')}}"></script>
 <script src="{{elixir('js/create_val.js')}}"></script>
@@ -78,12 +76,6 @@
                 dataParse.forEach(function (element) {                   
                    $('#showTaskList').append("<option id='opttask' value="+element.id+">"+element.title+"</option>")
                 });
-                
-                //alert("Number of data : " + i);
-                //alert("parse da[3].id : " + da[3].id + " | parse da[3].title : " + da[3].title);
-                //alert();
-                //var da1 = JSON.stringify(da[1]);
-                //alert('da[1].stringify' + da1)
             },
             error: function(){
                 alert("Error!!!")
@@ -143,22 +135,12 @@
     });
 
     /*Function Save value to DB
-    เพื่อเอาเตรียมไว้สร้าง ไฟล์ ical ภายหลัง
+    เพื่อเอาเตรียมไว้สร้าง ไฟล์ .ics ภายหลัง
     --------------------------------*/
     $('#save_db').click(function() {
-
-        /*------
-        Pase
-
-        ------*/
-
-        /*Set Json Data
-        -------------*/
-        //var appointData = { "DateTime": returnData, "taskId": vTaskid }
         
         var appointD = create_ical(vDate, vTime, vTaskid)
-        alert("Data befor send : " + appointD)
-        //
+        //alert("Data befor send : " + appointD)
         
         $.ajax({
             type: "POST",
@@ -168,96 +150,82 @@
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             success: function (data) {
-                /*Clear Show
-                
-                $('#showDate').html('---')
-                $('#showTime').html('---')
-                $('#showTask').html('---')
-                -------------*/
+                var r = confirm("บันทึกข้อมูลสำเร็จ ต้องการเคลียร์ข้อมูลหรือไม่")
 
-                /*Clear Data Value
-                
-                vDate = ''
-                vTime = ''
-                vTaskTitle = ''
-                vTaskid = ''
-                vData = ''  
-                -------------*/
-
-                /*Clear Input Form
-                -------------*/
-                $('#date').val('')
-                $('#myTime').val('')
-                
-                alert("Create Success : " + JSON.stringify(data))
+                if (r) {
+                    clear_data()
+                }
+                //alert("Create Success : " + JSON.stringify(data))
             },
             error: function () {
                 alert("Error!!!")
             }
-        })
-
-        /*Preview Data
-        
-        alert(  "Data : " + myDate + " | " + 
-                "Time : " + myTime + " | " + 
-                "TaskId : " + vTaskid + " | " + 
-                "TaskTitle : " + vTaskTitle + " | " + 
-                "Return DateTime : " + returnData
-        );
-        ---------------*/        
+        })     
     });
 
+    /*Function สร้างไฟล์ .ics
+    ----------------------*/
     $('#create_ical').click(function(){
         
         var appointD = (create_ical(vDate, vTime, vTaskid))
-        alert("Data befor send : " + appointD)
+        
         $.ajax({
             type: "POST",
             url: "ical",
-            //data: JSON.stringify(appointData),
             data: appointD,
             contentType: "application/json; charset=utf-8",
             //dataType: "binary",
             success: function (data) {
-                
-                /*Clear Show Data
-                -------------*/
-                $('#showDate').html('---')
-                $('#showTime').html('---')
-                $('#showTask').html('---')
-                
-                /*Clear Data Value
-                -------------*/
-                vDate = ''
-                vTime = ''
-                vTaskTitle = ''
-                vTaskid = ''
-                vData = ''  
-                
 
-                /*Clear Input Form
-                -------------*/
-                $('#date').val('')
-                $('#myTime').val('')
-                
-                //alert(JSON.stringify(data))
-                //alert("Create Success : " + data)
-
-                /* Methos DownloadData
+                /* Method DownloadData
                 ----------------------*/
                 var blob = new Blob([data]);
                 var link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);
                 link.download = "icalfile.ics";
                 link.click();
-                
-                 
+
+                var r = confirm("สร้างไฟล์ข้อมูลสำเร็จ ต้องการเคลียร์ข้อมูลหรือไม่")
+
+                if (r) {
+                    clear_data()
+                }
             },
             error: function () {
                 alert("Error!!!")
             }
         })
     })
+
+    /*Function Clear value and form
+    ------------------------------*/
+    $('#clear_value').click(function() {
+        clear_data()
+        
+    });
+
+    /*Function Clear ข้อมูลทั้งหมด
+    -------------------------*/
+    function clear_data() {
+        /*Clear Show
+        -------------*/
+        $('#showDate').html('---')
+        $('#showTime').html('---')
+        $('#showTask').html('---')
+
+        /*Clear Data Value
+        -------------*/
+        vDate = ''
+        vTime = ''
+        vTaskTitle = ''
+        vTaskid = ''
+        vData = ''
+
+        /*Clear Input Form
+        -------------*/
+        $('#date').val('')
+        $('#myTime').val('')
+    }
     
 
 </script>

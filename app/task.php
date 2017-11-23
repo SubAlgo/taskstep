@@ -20,6 +20,5 @@ class task extends Model
   {
     return $this->hasMany('App\appoint');
   }
-
   
 }

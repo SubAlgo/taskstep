@@ -11,6 +11,8 @@ use App\appoint;
 
 class TaskStepController extends Controller
 {
+    /*Function บันทึกข้อมูล Task และ Step
+    --------------------------------*/
     public function createTaskStep (Request $req) {
         $task = new task;
         $step = new step;
@@ -21,7 +23,7 @@ class TaskStepController extends Controller
         $cTask = $req->get('task');
         //นำตัวแปร cTask มากำหนดค่าให้กับ Task Title
         $task->title = $cTask;
-                                //บันทึกลง DataBase Table Task
+        //บันทึกลง DataBase Table Task
         $task->save();
 
         //-------- Save STEP ---------
@@ -37,9 +39,9 @@ class TaskStepController extends Controller
         $i = 0;
         foreach($stepDecode as $val) {
             DB::table('step')->insert(
-            ['no' => $i+1,
-            'title' => $stepDecode[$i],
-            'task_id' => $task_id
+            [   'no'        => $i+1,
+                'title'     => $stepDecode[$i],
+                'task_id'   => $task_id
             ]);
             $i++;
         }
@@ -48,14 +50,16 @@ class TaskStepController extends Controller
         }
 
 
-        //----GET_ALL_TASK
+        /*Function ดึงข้อมูล Task ทั้งหมด
+        ---------------------------*/
         public function gettask() {
             $task = new task;
             $data = DB::table('task')->select('*')->where('id','<=',10)->get();
             return response($data);
         }
 
-        //----- Get Task_Title
+        /*Function ดึงข้อมูล Task Title
+        --------------------------*/
         public function gettasktitle(Request $req) {
             //Request ที่ได้มาคือ ค่า id ที่จะเอามา get หา Task_Title
             $x = collect($req)->toJson();
@@ -65,23 +69,18 @@ class TaskStepController extends Controller
             return response($title);
         }
 
+        /*Function สร้างข้อมูลการนัดหมาย
+        ----------------------------*/
         public function createAppoint(Request $req) {
 
-             //{"DateTime":"2017-11-17 21:11:00","taskId":"3"}
             $x = collect($req)->toJson();
             $data = json_decode($x);
             $myDate = $data->DateTime;
             $myTaskId = $data->taskId;
             
-            //$data_Date_encode = json_encode($data->DateTime); //"2017-11-17 21:11:00"
-            //$dat_taskId_encode = json_encode($data->taskId); //"3"
-
-          
-            //DB::table('appoint')->insert(['date'=> $myDate,'task_id' => $myTaskId]);
-                      
-
+            DB::table('appoint')->insert(['date'=> $myDate,'task_id' => $myTaskId]);
+    
             return response($req);
-            //return response($d);
         }
 
         

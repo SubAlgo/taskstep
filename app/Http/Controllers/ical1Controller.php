@@ -75,11 +75,6 @@ class ical1Controller extends Controller
 
       //  return response()->download($vCalendar->render());
         
-        
         //return response($req);
-        
-        
-
-        
     }
 }
