@@ -12,8 +12,7 @@ class appoint extends Model
 
     public function task ()
     {
-      return $this->hasOne('App\task');
-      //return $this->belongsTo('App\task');
+      return $this->belongsTo('App\task', 'task_id');
       //return $this->belongsTo('App\task', 'foreign_key');
       //return $this->belongsTo('App\task', 'foreign_key', 'other_key');
     }

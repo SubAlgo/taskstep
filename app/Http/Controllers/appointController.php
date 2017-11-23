@@ -11,6 +11,7 @@ class appointController extends Controller
         $appoint = new appoint;
         
         $data = $appoint->get();
+        //DB::table('task')->join('appoint', 'task.id' , '=' , 'appoint.task_id')->select('task.title', 'appoint.date','appoint.id')->get();
 
         return response($data);
     }

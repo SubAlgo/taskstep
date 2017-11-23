@@ -19,6 +19,10 @@ class task extends Model
     public function appoint ()
   {
     return $this->hasMany('App\appoint');
+    //$task->find(1)->appoint;
   }
   
+  /*ตัวอย่างการ join
+  DB::table('task')->join('step', 'task.id' ,'=', 'step.task_id')->select('task.*', 'step.no', 'step.title')->get();
+  */
 }
