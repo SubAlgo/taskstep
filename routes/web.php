@@ -16,12 +16,20 @@ Route::get('/ical', 'icalController@ical');
 Route::post('/ical', 'icalController@ical'); 
 Route::get('/ical1', 'ical1Controller@ical'); 
 
+Route::get('/getappoint', 'appointController@getappoint');
+
 Route::get('/', function () {
     return view('index');
 });
 
 Route::get('/task', function () {
     return view('task');
+});
+
+
+
+Route::get('/createics', function () {
+    return view('createics');
 });
 
 Route::post('/task', 'TaskStepController@createTaskStep');
