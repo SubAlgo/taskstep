@@ -86,4 +86,13 @@ class icalController extends Controller
        
         //return response($start_date); 
     }
+
+    /*
+    DB::table('appoint')
+	->join('task', 'appoint.task_id', '=', 'task.id')
+	->orderBy('appoint.id')
+	->select('appoint.id','appoint.date', 'task.title')
+	->whereIn('appoint.id', [1,2,3,6])
+    ->get();
+    */
 }

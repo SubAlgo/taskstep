@@ -16,7 +16,7 @@ Route::get('/ical', 'icalController@ical');
 Route::post('/ical', 'icalController@ical'); 
 Route::get('/ical1', 'ical1Controller@ical'); 
 
-Route::get('/getappoint', 'appointController@getappoint');
+Route::get('/getappoint', 'appointController@getallappoint');
 
 Route::get('/', function () {
     return view('index');
