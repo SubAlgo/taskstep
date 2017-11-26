@@ -83,24 +83,48 @@ class icalController extends Controller
         $myObj = collect($myId)->toJson();
         $myData = json_decode($myObj);
 
-        $x = [];
+        $genAppointId = [];
         $i = 0;
-        foreach($myData as $da){
-            $x[$i] = $da;
+        foreach($myData as $data){
+            $genAppointId[$i] = $data;
             $i++;
-
         }
 
-        $dataDB = DB::table('appoint')->join('task', 'appoint.task_id', '=', 'task.id')
-                                      ->orderBy('appoint.id')
-                                      ->select('appoint.id','appoint.date', 'task.title')
-                                      ->whereIn('appoint.id', $x)
-                                      ->get();
+        $dataDBs = DB::table('appoint')->join('task', 'appoint.task_id', '=', 'task.id')
+                                       ->orderBy('appoint.id')
+                                       ->select('appoint.id','appoint.date', 'task.title')
+                                       ->whereIn('appoint.id', $genAppointId)
+                                       ->get();
+        
+        //Set Time Zone                               
+        date_default_timezone_set('asia/bangkok');
+        // 1. Create new calendar
+        $vCalendar = new \Eluceo\iCal\Component\Calendar('www.example.com');
 
-    
+        foreach($dataDBs as $dataDB) {
+            // 2. Create an event
+            $vEvent = new \Eluceo\iCal\Component\Event();
+            $vEvent->setDtStart(new \DateTime($dataDB->date));
+            $vEvent->setDtEnd(new \DateTime($dataDB->date));
+            
+            $vEvent->setSummary($dataDB->title);
+            
+            // Adding Timezone (optional)
+            $vEvent->setUseTimezone(true);
+        
+            // 3. Add event to calendar
+            $vCalendar->addComponent($vEvent);
+        }
+        /*4. Set headers
+        ----------------*/
+        
+        header('Content-Type: text/calendar; charset=utf-8');
+        header('Content-Disposition: attachment; filename="cal223.ics"');
+ 
+        /*5. Output
+        -----------*/
+        echo $vCalendar->render();
 
-
-        return $dataDB;
     }
 
     /*
