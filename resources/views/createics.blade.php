@@ -4,7 +4,7 @@
 <div class="ui stacked segment">
     <label for="">กำหนดการ</label>
     
-    <form id="theList" action="">
+    <form id="theList" action="/ical/createmulti/">
         <table id="appointTable" border="1">
             <tr>
                 <th>Check</th>
@@ -37,7 +37,7 @@ $(window).load(function(){
             dataParse.forEach(function (element) {
                 $('#appointTable').append("<tr>\
                                             <td align='center'>\
-                                                <input type='checkbox' name='da' value=" + element.id + ">\
+                                                <input type='checkbox' name='list[]' value=" + element.id + ">\
                                             </td>\
                                             <td>" + element.date + "</td>\
                                             <td>" + element.title + "</td>\

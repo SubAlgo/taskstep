@@ -37,18 +37,8 @@ class icalController extends Controller
         $vEvent = new \Eluceo\iCal\Component\Event();
         $vEvent->setDtStart(new \DateTime($myDate));
         $vEvent->setDtEnd(new \DateTime($myDate));
-        //$vEvent->setDtStart(new \DateTime($start_date));
-        //$vEvent->setDtEnd(new \DateTime($start_date));
         
         $vEvent->setSummary($myTaskTitle);
-        
-        /* Set recurrence rule (option)
-
-        $recurrenceRule = new \Eluceo\iCal\Property\Event\RecurrenceRule();
-        $recurrenceRule->setFreq(\Eluceo\iCal\Property\Event\RecurrenceRule::FREQ_WEEKLY);
-        $recurrenceRule->setInterval(1);
-        $vEvent->setRecurrenceRule($recurrenceRule);
-        --------------------*/
 
         // Adding Timezone (optional)
         $vEvent->setUseTimezone(true);
@@ -85,6 +75,32 @@ class icalController extends Controller
         //return response()->download($storagePath, $filename, $headers);
        
         //return response($start_date); 
+    }
+
+    public function multiCreateCsi(Request $req) {
+        $myId = $req->input('list');
+
+        $myObj = collect($myId)->toJson();
+        $myData = json_decode($myObj);
+
+        $x = [];
+        $i = 0;
+        foreach($myData as $da){
+            $x[$i] = $da;
+            $i++;
+
+        }
+
+        $dataDB = DB::table('appoint')->join('task', 'appoint.task_id', '=', 'task.id')
+                                      ->orderBy('appoint.id')
+                                      ->select('appoint.id','appoint.date', 'task.title')
+                                      ->whereIn('appoint.id', $x)
+                                      ->get();
+
+    
+
+
+        return $dataDB;
     }
 
     /*

@@ -14,7 +14,9 @@ Route::get('/test', 'testController@test');
 
 Route::get('/ical', 'icalController@ical'); 
 Route::post('/ical', 'icalController@ical'); 
-Route::get('/ical1', 'ical1Controller@ical'); 
+Route::get('/ical1', 'ical1Controller@ical');
+
+Route::get('/ical/createmulti', 'icalController@multiCreateCsi');
 
 Route::get('/getappoint', 'appointController@getallappoint');
 
