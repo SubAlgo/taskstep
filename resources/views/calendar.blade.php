@@ -184,6 +184,7 @@
                 link.href = window.URL.createObjectURL(blob);
                 link.download = "icalfile.ics";
                 link.click();
+                
 
                 var r = confirm("สร้างไฟล์ข้อมูลสำเร็จ ต้องการเคลียร์ข้อมูลหรือไม่")
 

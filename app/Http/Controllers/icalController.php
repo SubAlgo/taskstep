@@ -13,8 +13,10 @@ use DB;
 
 class icalController extends Controller
 {
-    public function ical(Request $req) {
 
+    /*Function สร้างไฟล์ .ics (สร้างทันทีโดยการส่งค่า Event กับ DateTime โดยตรง)
+    -------------------------------------------------------------------*/
+    public function ical(Request $req) {
 
         $myObj = collect($req)->toJson();
         $data = json_decode($myObj);
@@ -25,7 +27,6 @@ class icalController extends Controller
         $task = new task;
         $getTitle = $task->select('title')->where('id', $myTaskId)->get();
         $myTaskTitle = ($getTitle[0]->title);
-        
         
         // set default timezone (PHP 5.4)
         date_default_timezone_set('asia/bangkok');
@@ -70,13 +71,16 @@ class icalController extends Controller
         /*Create StoragePath
         ------------------*/        
         $storagePath = storage_path('app\\'.$mixPath); //ที่เก็บไฟล์  C:\xampp\htdocs\task\storage\app\public\myical9.ics
-
+        
         return response()->download($storagePath);
+        
         //return response()->download($storagePath, $filename, $headers);
        
         //return response($start_date); 
     }
 
+    /*Function สร้างไฟล์ .ics (สร้างโดยการไปดึงข้อมูลจาก Database มาสร้างเป็นไฟล์ .ics)
+    ------------------------------------------------------------------------*/
     public function multiCreateCsi(Request $req) {
         $myId = $req->input('list');
 
@@ -127,12 +131,4 @@ class icalController extends Controller
 
     }
 
-    /*
-    DB::table('appoint')
-	->join('task', 'appoint.task_id', '=', 'task.id')
-	->orderBy('appoint.id')
-	->select('appoint.id','appoint.date', 'task.title')
-	->whereIn('appoint.id', [1,2,3,6])
-    ->get();
-    */
 }
